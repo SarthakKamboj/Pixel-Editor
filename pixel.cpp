@@ -17,16 +17,21 @@ void Pixel::update(int x, int y) {
 		int mouseX, mouseY;
 		SDL_GetMouseState(&mouseX, &mouseY);
 
-		if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
-			/*
-			color.r = 0;
-			color.g = 0;
-			color.b = 255;
-			color.a = 255;
-			*/
+		if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
 			color = colorPicker.selectedColor;
 		}
 	}
+}
+
+
+bool Pixel::clickedOn(int x, int y) {
+	if (input.mouseDown) {
+		int mouseX, mouseY;
+		SDL_GetMouseState(&mouseX, &mouseY);
+
+		return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
+	}
+	return false;
 }
 
 void Pixel::render(int x, int y) {

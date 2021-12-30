@@ -14,6 +14,6 @@ public:
 	SDL_Color selectedColor;
 
 private:
-	SDL_Color colors[5];
+	SDL_Color colors[6];
 	int selectedIdx;
 };

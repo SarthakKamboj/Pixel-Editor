@@ -12,11 +12,9 @@ void Input::update() {
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		mouseDown = true;
-		std::cout << "mouse down" << std::endl;
 		break;
 	case SDL_MOUSEBUTTONUP:
 		mouseDown = false;
-		std::cout << "mouse up" << std::endl;
 		break;
 	case SDL_KEYDOWN:
 		SDL_KeyCode keyCode = (SDL_KeyCode)evnt.key.keysym.sym;

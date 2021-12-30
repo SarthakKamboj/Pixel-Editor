@@ -1,11 +1,12 @@
 #include "colorPicker.h"
 
 ColorPicker::ColorPicker() {
-	colors[0] = { 255, 0, 0, 255 };
-	colors[1] = { 0, 255, 0, 255 };
-	colors[2] = { 0, 0, 255, 255 };
+	colors[0] = { 217, 40, 1, 255 };
+	colors[1] = { 136,113,1, 255 };
+	colors[2] = { 252,153,57, 255 };
 	colors[3] = { 255, 0, 255, 255 };
 	colors[4] = { 255, 255, 0, 255 };
+	colors[5] = { 255, 255, 255, 255 };
 
 	selectedColor = colors[0];
 	selectedIdx = 0;
@@ -30,7 +31,7 @@ void ColorPicker::update(int x, int y) {
 	int bottomYPadding = 10;
 	int size = 30;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 6; i++) {
 		SDL_Color& color = colors[i];
 
 		int colorY = y + ((size + bottomYPadding) * i);
@@ -50,7 +51,7 @@ void ColorPicker::render(int x, int y) {
 	int yPadding = 5;
 	int size = 30;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 6; i++) {
 
 		int colorCellStartY = y + ((size + (2 * yPadding)) * i) + yPadding;
 
@@ -80,6 +81,8 @@ void ColorPicker::render(int x, int y) {
 
 		SDL_RenderFillRect(renderer, &position);
 	}
+
+
 
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 }

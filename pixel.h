@@ -18,6 +18,8 @@ struct Pixel {
 
 	void update(int x, int y);
 	void render(int x, int y);
+
+	bool clickedOn(int x, int y);
 };
 
 

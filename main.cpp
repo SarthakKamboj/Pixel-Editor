@@ -23,7 +23,7 @@ int main(int argc, char* args[]) {
 	float secPerFrame = 1000.0f / FPS;
 
 	int windowWidth = 800;
-	int windowHeight = 600;
+	int windowHeight = 700;
 
 	SDL_Window* window = SDL_CreateWindow("Pixel Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
@@ -41,7 +41,7 @@ int main(int argc, char* args[]) {
 
 	SDL_Rect dest = { 0,0, textWidth, textHeight };
 
-	Canvas canvas(55, 65, 10, 10);
+	Canvas canvas(64, 48, 10, 10);
 
 	while (!input.quit) {
 
