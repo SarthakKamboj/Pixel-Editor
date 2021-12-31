@@ -14,19 +14,7 @@ ColorPicker::ColorPicker() {
 
 void ColorPicker::update(int x, int y) {
 
-	static bool changed = false;
-
-	if (!input.mouseDown) {
-		changed = false;
-		return;
-	}
-
-	if (changed) return;
-
-	changed = true;
-
-	int mouseX, mouseY;
-	SDL_GetMouseState(&mouseX, &mouseY);
+	if (!input.mousePressed) return;
 
 	int bottomYPadding = 10;
 	int size = 30;
@@ -36,7 +24,7 @@ void ColorPicker::update(int x, int y) {
 
 		int colorY = y + ((size + bottomYPadding) * i);
 
-		if (mouseX >= x && mouseX <= x + size && mouseY >= colorY && mouseY <= colorY + size) {
+		if (input.mouseState.x >= x && input.mouseState.x <= x + size && input.mouseState.y >= colorY && input.mouseState.y <= colorY + size) {
 			selectedColor = color;
 			selectedIdx = i;
 		}

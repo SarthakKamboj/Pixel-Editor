@@ -1,7 +1,5 @@
 #include "input.h"
 
-// TODO: Add undo and redo functionality
-
 Input::Input() {
 	inputReleased.setAllTrue();
 }
@@ -45,6 +43,13 @@ void Input::update() {
 				inputReleased.f = false;
 			}
 			break;
+		case SDLK_u:
+			inputDown.u = true;
+			if (inputReleased.u) {
+				inputPressed.u = true;
+				inputReleased.u = false;
+			}
+			break;
 		}
 		break;
 	}
@@ -56,6 +61,9 @@ void Input::update() {
 			break;
 		case SDLK_f:
 			inputReleased.f = true;
+			break;
+		case SDLK_u:
+			inputReleased.u = true;
 			break;
 		}
 		break;

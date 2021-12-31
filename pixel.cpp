@@ -14,9 +14,6 @@ Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.c
 
 void Pixel::update(int x, int y) {
 	if (input.mouseDown) {
-		// int mouseX, mouseY;
-		// SDL_GetMouseState(&mouseX, &mouseY);
-
 		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
 			color = colorPicker.selectedColor;
 		}
@@ -26,9 +23,6 @@ void Pixel::update(int x, int y) {
 
 bool Pixel::clickedOn(int x, int y) {
 	if (input.mousePressed) {
-		// int mouseX, mouseY;
-		// SDL_GetMouseState(&mouseX, &mouseY);
-
 		return input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height;
 	}
 	return false;

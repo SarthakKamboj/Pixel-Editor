@@ -7,6 +7,7 @@
 #include "canvas.h"
 #include "input.h"
 #include "colorPicker.h"
+#include "history.h"
 
 Input input;
 SDL_Renderer* renderer;
@@ -20,7 +21,7 @@ int main(int argc, char* args[]) {
 	}
 
 	int FPS = 60;
-	float secPerFrame = 1000.0f / FPS;
+	float expectedMSPerFrame = 1000.0f / FPS;
 
 	int windowWidth = 800;
 	int windowHeight = 700;
@@ -42,8 +43,9 @@ int main(int argc, char* args[]) {
 	SDL_Rect dest = { 0,0, textWidth, textHeight };
 
 	Canvas canvas(64, 48, 10, 10);
-	// Canvas canvas(8, 8, 30, 30);
-	// Canvas canvas(4, 4, 60, 60);
+
+	History history;
+	// history.canvas = &canvas;
 
 	while (!input.quit) {
 
@@ -61,10 +63,10 @@ int main(int argc, char* args[]) {
 
 		SDL_RenderPresent(renderer);
 
-		uint32_t frameTime = SDL_GetTicks() - start;
+		uint32_t msFrameTime = SDL_GetTicks() - start;
 
-		if (frameTime < secPerFrame) {
-			SDL_Delay(secPerFrame - frameTime);
+		if (msFrameTime < expectedMSPerFrame) {
+			SDL_Delay(expectedMSPerFrame - msFrameTime);
 		}
 	}
 

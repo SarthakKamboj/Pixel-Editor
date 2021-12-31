@@ -33,7 +33,6 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	width = cols * widthPerCell;
 	height = rows * heightPerCell;
 
-
 	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
 	SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill Rect", { 255, 255, 255, 255 });
 	fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
@@ -49,7 +48,7 @@ void Canvas::update(int x, int y) {
 			int pixelX = x + (col * widthPerCell);
 			int pixelY = y + (row * heightPerCell);
 			if (fillSelectOn) {
-				if (pixel.clickedOn(pixelX, pixelY) && !sameColor(colorPicker.selectedColor, pixel.color)) {
+				if (pixel.clickedOn(pixelX, pixelY) && !isSameColor(colorPicker.selectedColor, pixel.color)) {
 					fillSelect(row, col);
 					return;
 				}
@@ -110,28 +109,29 @@ void Canvas::fillSelect(int startRow, int startCol) {
 		bottomPos.row = pos.row + 1;
 		bottomPos.col = pos.col;
 
-		if (leftPos.col >= 0 && !posInVec(leftPos, visited) && sameColor(pixels[leftPos.row][leftPos.col].color, startColor)) {
+		if (leftPos.col >= 0 && !posInVec(leftPos, visited) && isSameColor(pixels[leftPos.row][leftPos.col].color, startColor)) {
 			posPixelsToChange.push(leftPos);
 		}
 
-		if (rightPos.col < cols && !posInVec(rightPos, visited) && sameColor(pixels[rightPos.row][rightPos.col].color, startColor)) {
+		if (rightPos.col < cols && !posInVec(rightPos, visited) && isSameColor(pixels[rightPos.row][rightPos.col].color, startColor)) {
 			posPixelsToChange.push(rightPos);
 		}
 
-		if (topPos.row >= 0 && !posInVec(topPos, visited) && sameColor(pixels[topPos.row][topPos.col].color, startColor)) {
+		if (topPos.row >= 0 && !posInVec(topPos, visited) && isSameColor(pixels[topPos.row][topPos.col].color, startColor)) {
 			posPixelsToChange.push(topPos);
 		}
 
-		if (bottomPos.row < rows && !posInVec(bottomPos, visited) && sameColor(pixels[bottomPos.row][bottomPos.col].color, startColor)) {
+		if (bottomPos.row < rows && !posInVec(bottomPos, visited) && isSameColor(pixels[bottomPos.row][bottomPos.col].color, startColor)) {
 			posPixelsToChange.push(bottomPos);
 		}
 
 		pixels[pos.row][pos.col].color = colorPicker.selectedColor;
+
 	}
 
 }
 
-bool Canvas::sameColor(SDL_Color& c1, SDL_Color& c2) {
+bool Canvas::isSameColor(SDL_Color& c1, SDL_Color& c2) {
 	return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
 }
 
@@ -179,8 +179,6 @@ void Canvas::render(int x, int y) {
 
 	SDL_Rect fillSelectOptionRect = { x + borderWidth, height + borderWidth, w, h };
 	SDL_RenderCopy(renderer, fillSelectTex, NULL, &fillSelectOptionRect);
-
-
 
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 }

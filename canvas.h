@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_set>
 #include "pixel.h"
+#include "history.h"
 
 extern SDL_Renderer* renderer;
 extern ColorPicker colorPicker;
@@ -36,12 +37,11 @@ private:
 
 	bool fillSelectOn = false;
 
-	SDL_Texture* canvasTexture;
-	SDL_Texture* fillSelectTex;
-
 	Pixel** pixels;
+
+	SDL_Texture* fillSelectTex;
 
 	void fillSelect(int startRow, int startCol);
 	bool posInVec(Pos& pos, std::vector<Pos>& vec);
-	bool sameColor(SDL_Color& c1, SDL_Color& c2);
+	bool isSameColor(SDL_Color& c1, SDL_Color& c2);
 };
