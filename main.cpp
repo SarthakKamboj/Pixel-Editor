@@ -42,6 +42,8 @@ int main(int argc, char* args[]) {
 	SDL_Rect dest = { 0,0, textWidth, textHeight };
 
 	Canvas canvas(64, 48, 10, 10);
+	// Canvas canvas(8, 8, 30, 30);
+	// Canvas canvas(4, 4, 60, 60);
 
 	while (!input.quit) {
 

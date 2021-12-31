@@ -34,8 +34,6 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	height = rows * heightPerCell;
 
 
-	// SDL
-	// SDL_Surface* fillSelectSurface = IMG_Load("");
 	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
 	SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill Rect", { 255, 255, 255, 255 });
 	fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
@@ -51,7 +49,7 @@ void Canvas::update(int x, int y) {
 			int pixelX = x + (col * widthPerCell);
 			int pixelY = y + (row * heightPerCell);
 			if (fillSelectOn) {
-				if (pixel.clickedOn(pixelX, pixelY)) {
+				if (pixel.clickedOn(pixelX, pixelY) && !sameColor(colorPicker.selectedColor, pixel.color)) {
 					fillSelect(row, col);
 					return;
 				}
@@ -63,23 +61,19 @@ void Canvas::update(int x, int y) {
 	}
 
 	static bool changed = false;
-	if (input.mouseDown) {
-		if (changed) return;
+
+	if (input.inputPressed.f) {
+		fillSelectOn = !fillSelectOn;
+	}
+	else if (input.mousePressed) {
 		int w, h;
 
 		int borderWidth = 5;
 		SDL_QueryTexture(fillSelectTex, NULL, NULL, &w, &h);
 
-		int mouseX, mouseY;
-		SDL_GetMouseState(&mouseX, &mouseY);
-
-		if (mouseX >= x + borderWidth && mouseX < x + borderWidth + w && mouseY >= height + borderWidth && mouseY <= height + borderWidth + h) {
+		if (input.mouseState.x >= x + borderWidth && input.mouseState.x < x + borderWidth + w && input.mouseState.y >= height + borderWidth && input.mouseState.y <= height + borderWidth + h) {
 			fillSelectOn = !fillSelectOn;
-			changed = true;
 		}
-	}
-	else {
-		changed = false;
 	}
 }
 
@@ -95,7 +89,8 @@ void Canvas::fillSelect(int startRow, int startCol) {
 	posPixelsToChange.push(start);
 
 	while (posPixelsToChange.size() > 0) {
-		Pos& pos = posPixelsToChange.front();
+
+		Pos pos = posPixelsToChange.front();
 		posPixelsToChange.pop();
 
 		if (posInVec(pos, visited)) continue;
@@ -132,7 +127,6 @@ void Canvas::fillSelect(int startRow, int startCol) {
 		}
 
 		pixels[pos.row][pos.col].color = colorPicker.selectedColor;
-
 	}
 
 }

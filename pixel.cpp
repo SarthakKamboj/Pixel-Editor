@@ -14,10 +14,10 @@ Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.c
 
 void Pixel::update(int x, int y) {
 	if (input.mouseDown) {
-		int mouseX, mouseY;
-		SDL_GetMouseState(&mouseX, &mouseY);
+		// int mouseX, mouseY;
+		// SDL_GetMouseState(&mouseX, &mouseY);
 
-		if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
+		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
 			color = colorPicker.selectedColor;
 		}
 	}
@@ -25,16 +25,17 @@ void Pixel::update(int x, int y) {
 
 
 bool Pixel::clickedOn(int x, int y) {
-	if (input.mouseDown) {
-		int mouseX, mouseY;
-		SDL_GetMouseState(&mouseX, &mouseY);
+	if (input.mousePressed) {
+		// int mouseX, mouseY;
+		// SDL_GetMouseState(&mouseX, &mouseY);
 
-		return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
+		return input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height;
 	}
 	return false;
 }
 
 void Pixel::render(int x, int y) {
+
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	SDL_Rect canvasMapping;
@@ -44,4 +45,6 @@ void Pixel::render(int x, int y) {
 	canvasMapping.h = height;
 
 	SDL_RenderFillRect(renderer, &canvasMapping);
+	SDL_SetRenderDrawColor(renderer, 120, 120, 120, 255);
+	SDL_RenderDrawRect(renderer, &canvasMapping);
 }
