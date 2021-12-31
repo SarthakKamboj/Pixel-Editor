@@ -1,5 +1,6 @@
 #include "input.h"
 
+// TODO: Add undo and redo functionality
 
 Input::Input() {
 	inputReleased.setAllTrue();
@@ -30,21 +31,20 @@ void Input::update() {
 	case SDL_KEYDOWN: {
 		SDL_KeyCode keyCode = (SDL_KeyCode)evnt.key.keysym.sym;
 		switch (keyCode) {
-		case SDLK_w: {
+		case SDLK_w:
 			inputDown.w = true;
 			if (inputReleased.w) {
 				inputPressed.w = true;
 				inputReleased.w = false;
 			}
-			break; }
-		case SDLK_f: {
+			break;
+		case SDLK_f:
 			inputDown.f = true;
 			if (inputReleased.f) {
 				inputPressed.f = true;
 				inputReleased.f = false;
 			}
 			break;
-		}
 		}
 		break;
 	}
