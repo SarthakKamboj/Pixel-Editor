@@ -16,7 +16,6 @@ void Pixel::update(int x, int y) {
 	if (input.mouseDown && !Util::isSameColor(color, colorPicker.selectedColor)) {
 		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
 			std::vector<PixelChange> change;
-			// history.stateChanges.clear();
 
 			PixelChange pixelChange;
 			pixelChange.row = row;
@@ -28,7 +27,6 @@ void Pixel::update(int x, int y) {
 
 			change.push_back(pixelChange);
 			history.addStateChange(change);
-			std::cout << "prevColor: (" << (int)pixelChange.prevColor.r << ", " << (int)pixelChange.prevColor.g << ", " << (int)pixelChange.prevColor.b << ")" << std::endl;
 		}
 	}
 }

@@ -64,8 +64,8 @@ void Canvas::update(int x, int y) {
 	}
 
 	if (input.inputPressed.u) {
-		if (history.numStateChanges == 0) return;
-		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numStateChanges - 1];
+		if (history.numRecordedStateChanges == 0) return;
+		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numRecordedStateChanges - 1];
 		for (unsigned i = 0; i < stateChanges.size(); i++) {
 			PixelChange& pixelChange = stateChanges[i];
 			int row = pixelChange.row;
@@ -75,8 +75,28 @@ void Canvas::update(int x, int y) {
 			pixels[row][col].color = prevColor;
 		}
 
-		history.numStateChanges -= 1;
+		history.numRecordedStateChanges -= 1;
+		history.numRecordedUndoActions += 1;
 
+	}
+
+	if (input.inputPressed.r) {
+		if (history.numRecordedUndoActions == 0) return;
+
+		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numRecordedStateChanges];
+		history.numRecordedStateChanges += 1;
+
+		for (unsigned i = 0; i < stateChanges.size(); i++) {
+
+			PixelChange& pixelChange = stateChanges[i];
+			int row = pixelChange.row;
+			int col = pixelChange.col;
+			SDL_Color origColor = pixelChange.newColor;
+
+			pixels[row][col].color = origColor;
+		}
+
+		history.numRecordedUndoActions -= 1;
 	}
 
 	if (input.inputPressed.f) {
@@ -104,8 +124,6 @@ void Canvas::fillSelect(int startRow, int startCol) {
 	Pos start(startRow, startCol);
 
 	posPixelsToChange.push(start);
-
-	// history.stateChanges.clear();
 
 	std::vector<PixelChange> stateChange;
 

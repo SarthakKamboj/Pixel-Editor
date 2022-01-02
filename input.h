@@ -8,12 +8,13 @@ struct MouseState {
 };
 
 struct InputInfo {
-	bool w, f, u;
+	bool w, f, u, r;
 
 	void setAllTrue() {
 		w = true;
 		f = true;
 		u = true;
+		r = true;
 	}
 };
 

@@ -43,6 +43,13 @@ void Input::update() {
 				inputReleased.f = false;
 			}
 			break;
+		case SDLK_r:
+			inputDown.r = true;
+			if (inputReleased.r) {
+				inputPressed.r = true;
+				inputReleased.r = false;
+			}
+			break;
 		case SDLK_u:
 			inputDown.u = true;
 			if (inputReleased.u) {
@@ -64,6 +71,9 @@ void Input::update() {
 			break;
 		case SDLK_u:
 			inputReleased.u = true;
+			break;
+		case SDLK_r:
+			inputReleased.r = true;
 			break;
 		}
 		break;
