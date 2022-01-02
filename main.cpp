@@ -7,11 +7,13 @@
 #include "canvas.h"
 #include "input.h"
 #include "colorPicker.h"
+#include "pixel.h"
 #include "history.h"
 
 Input input;
 SDL_Renderer* renderer;
 ColorPicker colorPicker;
+History history;
 
 int main(int argc, char* args[]) {
 
@@ -29,23 +31,14 @@ int main(int argc, char* args[]) {
 	SDL_Window* window = SDL_CreateWindow("Pixel Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
-	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
-	SDL_Surface* surface = TTF_RenderText_Blended(font, "Image Editor", { 255, 255, 255, 255 });
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-	int textWidth, textHeight;
-	SDL_QueryTexture(texture, NULL, NULL, &textWidth, &textHeight);
+	std::cout << renderer << std::endl;
 
 	bool running = true;
 
-	SDL_Event evnt;
+	Canvas canvas(64, 48, 10, 10, renderer);
 
-	SDL_Rect dest = { 0,0, textWidth, textHeight };
-
-	Canvas canvas(64, 48, 10, 10);
-
-	History history;
-	// history.canvas = &canvas;
+	history.canvas = &canvas;
+	// Pixel::history = &history;
 
 	while (!input.quit) {
 

@@ -8,7 +8,7 @@ void History::update() {
 			int col = pixelChange.col;
 			SDL_Color prevColor = pixelChange.prevColor;
 
-			// canvas->pixels[row][col].color = prevColor;
+			canvas->pixels[row][col].color = prevColor;
 		}
 	}
 }

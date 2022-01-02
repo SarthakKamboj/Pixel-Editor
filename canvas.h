@@ -7,9 +7,7 @@
 #include <queue>
 #include <unordered_set>
 #include "pixel.h"
-#include "history.h"
 
-extern SDL_Renderer* renderer;
 extern ColorPicker colorPicker;
 
 struct Pos {
@@ -27,9 +25,11 @@ struct Pos {
 
 class Canvas {
 public:
-	Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell);
+	Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* renderer);
 	void update(int x, int y);
 	void render(int x, int y);
+
+	std::vector<std::vector<Pixel>> pixels;
 
 private:
 	int rows, cols, widthPerCell, heightPerCell;
@@ -37,9 +37,8 @@ private:
 
 	bool fillSelectOn = false;
 
-	Pixel** pixels;
-
 	SDL_Texture* fillSelectTex;
+	SDL_Renderer* renderer;
 
 	void fillSelect(int startRow, int startCol);
 	bool posInVec(Pos& pos, std::vector<Pos>& vec);

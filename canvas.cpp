@@ -1,7 +1,6 @@
 #include "canvas.h"
 
-Canvas::Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell) : rows(_rows), cols(_cols),
-pixels(new Pixel* [rows]),
+Canvas::Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* _renderer) : rows(_rows), cols(_cols),
 heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 {
 
@@ -10,11 +9,14 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	colors[1] = { 0, 255, 0, 255 };
 	colors[2] = { 0, 0, 255, 255 };
 
-	for (int row = 0; row < rows; row++) {
-		pixels[row] = new Pixel[cols];
-		for (int col = 0; col < cols; col++) {
+	renderer = _renderer;
 
-			Pixel& pixel = pixels[row][col];
+	pixels.reserve(rows);
+	for (int row = 0; row < rows; row++) {
+		pixels.push_back(std::vector<Pixel>());
+		pixels[row].reserve(cols);
+		for (int col = 0; col < cols; col++) {
+			Pixel pixel;
 			SDL_Color color = colors[(int)(rand() % 3)];
 			color.r = 255;
 			color.g = 255;
@@ -27,6 +29,8 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 			pixel.width = widthPerCell;
 			pixel.height = heightPerCell;
 
+			pixels[row].push_back(pixel);
+
 		}
 	}
 
@@ -34,9 +38,9 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	height = rows * heightPerCell;
 
 	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
-	SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill Rect", { 255, 255, 255, 255 });
+	SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill", { 255, 255, 255, 255 });
 	fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
-
+	SDL_FreeSurface(fillSelectSurface);
 }
 
 
@@ -58,8 +62,6 @@ void Canvas::update(int x, int y) {
 			}
 		}
 	}
-
-	static bool changed = false;
 
 	if (input.inputPressed.f) {
 		fillSelectOn = !fillSelectOn;
@@ -167,8 +169,8 @@ void Canvas::render(int x, int y) {
 		}
 	}
 
-	int w, h;
 	int borderWidth = 5;
+	int w, h;
 	SDL_QueryTexture(fillSelectTex, NULL, NULL, &w, &h);
 
 	if (fillSelectOn) {

@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "input.h"
 #include "colorPicker.h"
+#include "pixelChange.h"
 
 extern SDL_Renderer* renderer;
 extern Input input;

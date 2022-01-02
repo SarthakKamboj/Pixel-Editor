@@ -10,12 +10,24 @@ Pixel::Pixel() : row(0), col(0), width(0), height(0) {
 
 Pixel::Pixel(int _row, int _col, int _width, int _height, SDL_Color _color) : row(_row), col(_col), width(_width), height(_height), color(_color) {}
 
-Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color) {}
+Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color), width(other.width), height(other.height) {}
 
 void Pixel::update(int x, int y) {
 	if (input.mouseDown) {
 		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
+			// history->stateChanges.clear();
+
+			/*
+			PixelChange pixelChange;
+			pixelChange.row = row;
+			pixelChange.col = col;
+			pixelChange.prevColor = color;
+			pixelChange.newColor = colorPicker.selectedColor;
+			*/
+
 			color = colorPicker.selectedColor;
+
+			// history->stateChanges.push_back(pixelChange);
 		}
 	}
 }
