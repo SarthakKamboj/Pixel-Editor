@@ -12,14 +12,18 @@
 #include "toolBar.h"
 #include "numberInput.h"
 #include "canvasCreationModal.h"
+#include "canvasManager.h"
+#include <string>
+
+// TODO: create canvas dynamically
 
 Input input;
 SDL_Renderer* renderer;
 ColorPicker colorPicker;
 History history;
+CanvasManager canvasManager;
 
 int main(int argc, char* args[]) {
-
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0 || TTF_Init() == -1) {
 		std::cout << "failed setup" << std::endl;
@@ -36,7 +40,7 @@ int main(int argc, char* args[]) {
 
 	bool running = true;
 
-	Canvas canvas(64, 48, 8, 8, renderer);
+	// Canvas canvas(64, 48, 8, 8, renderer);
 	ToolBar toolBar(0, 0, windowWidth, 30);
 	// NumberInput numberInput(16, 100, { 255, 255, 255, 255 }, { 0,0,0,255 });
 
@@ -45,14 +49,16 @@ int main(int argc, char* args[]) {
 		uint32_t start = SDL_GetTicks();
 
 		input.update();
-		canvas.update(40, 40);
+		// canvas.update(40, 40);
+		canvasManager.update(40, 40);
 		colorPicker.update(700, 40);
 		toolBar.update();
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
-		canvas.render(40, 40);
+		// canvas.render(40, 40);
+		canvasManager.render(40, 40);
 		colorPicker.render(700, 40);
 		toolBar.render();
 

@@ -4,8 +4,11 @@
 #include "SDL.h"
 #include "util.h"
 #include "button.h"
+#include "canvasManager.h"
+#include "label.h"
 
 extern SDL_Renderer* renderer;
+extern CanvasManager canvasManager;
 
 class CanvasCreationModal {
 public:
@@ -16,8 +19,12 @@ public:
 private:
 	int x, y;
 
-	NumberInput widthInput;
-	NumberInput heightInput;
+	Label colsLabel;
+	NumberInput colsInput;
+	Label rowsLabel;
+	NumberInput rowsInput;
+	Label cellSizeLabel;
+	NumberInput cellSizeInput;
 	Button createButton;
 	Button closeButton;
 

@@ -41,6 +41,12 @@ void NumberInput::update(int x, int y) {
 	}
 }
 
+
+int NumberInput::getInputNumber() {
+	if (inputString == "") return 0;
+	return std::stoi(inputString);
+}
+
 void NumberInput::render(int x, int y) {
 
 	int startX = fmin(width - numberInputWidth, 0);

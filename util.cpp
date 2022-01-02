@@ -6,7 +6,7 @@ bool Util::isSameColor(SDL_Color& c1, SDL_Color& c2) {
 
 
 SDL_Texture* Util::getText(std::string text, int fontSize, SDL_Color color) {
-	static TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", fontSize);
+	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", fontSize);
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 	SDL_FreeSurface(textSurface);

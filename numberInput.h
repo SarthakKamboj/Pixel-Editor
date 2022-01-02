@@ -17,6 +17,8 @@ public:
 
 	bool active = false;
 
+	int getInputNumber();
+
 private:
 	int fontSize, width, height;
 	std::vector<SDL_Texture*> numberTextures;
