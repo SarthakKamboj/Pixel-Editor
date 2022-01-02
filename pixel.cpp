@@ -13,30 +13,32 @@ Pixel::Pixel(int _row, int _col, int _width, int _height, SDL_Color _color) : ro
 Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color), width(other.width), height(other.height) {}
 
 void Pixel::update(int x, int y) {
-	if (input.mouseDown && !Util::isSameColor(color, colorPicker.selectedColor)) {
-		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
-			std::vector<PixelChange> change;
+	// if (input.mouseDown && !Util::isSameColor(color, colorPicker.selectedColor)) {
+		// if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
+	if (input.isMouseDownOn(x, y, width, height) && !Util::isSameColor(color, colorPicker.selectedColor)) {
+		std::vector<PixelChange> change;
 
-			PixelChange pixelChange;
-			pixelChange.row = row;
-			pixelChange.col = col;
-			pixelChange.prevColor = color;
-			pixelChange.newColor = colorPicker.selectedColor;
+		PixelChange pixelChange;
+		pixelChange.row = row;
+		pixelChange.col = col;
+		pixelChange.prevColor = color;
+		pixelChange.newColor = colorPicker.selectedColor;
 
-			color = colorPicker.selectedColor;
+		color = colorPicker.selectedColor;
 
-			change.push_back(pixelChange);
-			history.addStateChange(change);
-		}
+		change.push_back(pixelChange);
+		history.addStateChange(change);
+		// }
 	}
 }
 
 
 bool Pixel::clickedOn(int x, int y) {
-	if (input.mousePressed) {
-		return input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height;
-	}
-	return false;
+	// if (input.mousePressed) {
+		// return input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height;
+	// }
+	// return false;
+	return input.isMousePressedOn(x, y, width, height);
 }
 
 void Pixel::render(int x, int y) {

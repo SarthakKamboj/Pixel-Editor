@@ -9,6 +9,9 @@
 #include "pixel.h"
 #include "history.h"
 #include "canvas.h"
+#include "toolBar.h"
+#include "numberInput.h"
+#include "canvasCreationModal.h"
 
 Input input;
 SDL_Renderer* renderer;
@@ -31,29 +34,27 @@ int main(int argc, char* args[]) {
 	SDL_Window* window = SDL_CreateWindow("Pixel Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
-	std::cout << renderer << std::endl;
-
 	bool running = true;
 
-	Canvas canvas(64, 48, 10, 10, renderer);
-
-	// history.canvas = &canvas;
-	// canvas.history = &history;
-	// Pixel::history = &history;
+	Canvas canvas(64, 48, 8, 8, renderer);
+	ToolBar toolBar(0, 0, windowWidth, 30);
+	// NumberInput numberInput(16, 100, { 255, 255, 255, 255 }, { 0,0,0,255 });
 
 	while (!input.quit) {
 
 		uint32_t start = SDL_GetTicks();
 
 		input.update();
-		canvas.update(0, 0);
-		colorPicker.update(700, 0);
+		canvas.update(40, 40);
+		colorPicker.update(700, 40);
+		toolBar.update();
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
-		canvas.render(0, 0);
-		colorPicker.render(700, 0);
+		canvas.render(40, 40);
+		colorPicker.render(700, 40);
+		toolBar.render();
 
 		SDL_RenderPresent(renderer);
 

@@ -37,10 +37,11 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	width = cols * widthPerCell;
 	height = rows * heightPerCell;
 
-	TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
-	SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill", { 255, 255, 255, 255 });
-	fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
-	SDL_FreeSurface(fillSelectSurface);
+	// TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
+	// SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill", { 255, 255, 255, 255 });
+	// fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
+	// SDL_FreeSurface(fillSelectSurface);
+	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
 }
 
 
@@ -63,7 +64,8 @@ void Canvas::update(int x, int y) {
 		}
 	}
 
-	if (input.inputPressed.u) {
+	// if (input.inputPressed.u) {
+	if (input.pressed[SDLK_u]) {
 		if (history.numRecordedStateChanges == 0) return;
 		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numRecordedStateChanges - 1];
 		for (unsigned i = 0; i < stateChanges.size(); i++) {
@@ -80,7 +82,8 @@ void Canvas::update(int x, int y) {
 
 	}
 
-	if (input.inputPressed.r) {
+	// if (input.inputPressed.r) {
+	if (input.pressed[SDLK_r]) {
 		if (history.numRecordedUndoActions == 0) return;
 
 		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numRecordedStateChanges];
@@ -99,7 +102,8 @@ void Canvas::update(int x, int y) {
 		history.numRecordedUndoActions -= 1;
 	}
 
-	if (input.inputPressed.f) {
+	// if (input.inputPressed.f) {
+	if (input.pressed[SDLK_f]) {
 		fillSelectOn = !fillSelectOn;
 	}
 	else if (input.mousePressed) {
@@ -171,7 +175,6 @@ void Canvas::fillSelect(int startRow, int startCol) {
 		pixelChange.prevColor = pixels[pos.row][pos.col].color;
 		pixelChange.newColor = colorPicker.selectedColor;
 
-		// history.stateChanges.push_back(pixelChange);
 		stateChange.push_back(pixelChange);
 
 		pixels[pos.row][pos.col].color = colorPicker.selectedColor;
@@ -214,16 +217,16 @@ void Canvas::render(int x, int y) {
 	}
 
 	int borderWidth = 5;
-	int w, h;
-	SDL_QueryTexture(fillSelectTex, NULL, NULL, &w, &h);
+	int fillSelectWidth, fillSelectHeight;
+	SDL_QueryTexture(fillSelectTex, NULL, NULL, &fillSelectWidth, &fillSelectHeight);
 
 	if (fillSelectOn) {
-		SDL_Rect selectedBckRect = { x, height, w + (borderWidth * 2), h + (borderWidth * 2) };
+		SDL_Rect selectedBckRect = { x, y + height, fillSelectWidth + (borderWidth * 2), fillSelectHeight + (borderWidth * 2) };
 		SDL_SetRenderDrawColor(renderer, 125, 125, 125, 255);
 		SDL_RenderFillRect(renderer, &selectedBckRect);
 	}
 
-	SDL_Rect fillSelectOptionRect = { x + borderWidth, height + borderWidth, w, h };
+	SDL_Rect fillSelectOptionRect = { x + borderWidth, y + height + borderWidth, fillSelectWidth, fillSelectHeight };
 	SDL_RenderCopy(renderer, fillSelectTex, NULL, &fillSelectOptionRect);
 
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
