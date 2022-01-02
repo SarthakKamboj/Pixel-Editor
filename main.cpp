@@ -4,11 +4,11 @@
 #include "SDL_ttf.h"
 #include "SDL_image.h"
 #include <vector>
-#include "canvas.h"
 #include "input.h"
 #include "colorPicker.h"
 #include "pixel.h"
 #include "history.h"
+#include "canvas.h"
 
 Input input;
 SDL_Renderer* renderer;
@@ -37,7 +37,8 @@ int main(int argc, char* args[]) {
 
 	Canvas canvas(64, 48, 10, 10, renderer);
 
-	history.canvas = &canvas;
+	// history.canvas = &canvas;
+	// canvas.history = &history;
 	// Pixel::history = &history;
 
 	while (!input.quit) {

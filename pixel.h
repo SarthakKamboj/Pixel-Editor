@@ -4,10 +4,13 @@
 #include "input.h"
 #include "colorPicker.h"
 #include "pixelChange.h"
+#include "history.h"
+#include "util.h"
 
 extern SDL_Renderer* renderer;
 extern Input input;
 extern ColorPicker colorPicker;
+extern History history;
 
 struct Pixel {
 	int row, col, width, height;

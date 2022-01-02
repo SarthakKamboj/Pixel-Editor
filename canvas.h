@@ -7,8 +7,11 @@
 #include <queue>
 #include <unordered_set>
 #include "pixel.h"
+#include "history.h"
+#include "util.h"
 
 extern ColorPicker colorPicker;
+extern History history;
 
 struct Pos {
 	int row, col;
@@ -42,5 +45,4 @@ private:
 
 	void fillSelect(int startRow, int startCol);
 	bool posInVec(Pos& pos, std::vector<Pos>& vec);
-	bool isSameColor(SDL_Color& c1, SDL_Color& c2);
 };

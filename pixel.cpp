@@ -13,21 +13,22 @@ Pixel::Pixel(int _row, int _col, int _width, int _height, SDL_Color _color) : ro
 Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color), width(other.width), height(other.height) {}
 
 void Pixel::update(int x, int y) {
-	if (input.mouseDown) {
+	if (input.mouseDown && !Util::isSameColor(color, colorPicker.selectedColor)) {
 		if (input.mouseState.x >= x && input.mouseState.x < x + width && input.mouseState.y >= y && input.mouseState.y < y + height) {
-			// history->stateChanges.clear();
+			std::vector<PixelChange> change;
+			// history.stateChanges.clear();
 
-			/*
 			PixelChange pixelChange;
 			pixelChange.row = row;
 			pixelChange.col = col;
 			pixelChange.prevColor = color;
 			pixelChange.newColor = colorPicker.selectedColor;
-			*/
 
 			color = colorPicker.selectedColor;
 
-			// history->stateChanges.push_back(pixelChange);
+			change.push_back(pixelChange);
+			history.addStateChange(change);
+			std::cout << "prevColor: (" << (int)pixelChange.prevColor.r << ", " << (int)pixelChange.prevColor.g << ", " << (int)pixelChange.prevColor.b << ")" << std::endl;
 		}
 	}
 }

@@ -11,4 +11,12 @@ struct PixelChange {
 
 	PixelChange(const PixelChange& other) : row(other.row), col(other.col),
 		prevColor(other.prevColor), newColor(other.newColor) {}
+
+	PixelChange& operator=(const PixelChange& other) {
+		row = other.row;
+		col = other.col;
+		prevColor = other.prevColor;
+		newColor = other.newColor;
+		return *this;
+	}
 };

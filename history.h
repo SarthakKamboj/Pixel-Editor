@@ -1,18 +1,20 @@
 #pragma once
-#include "SDL.h"
+
 #include <vector>
-#include "input.h"
-#include "canvas.h"
+#include <algorithm>
+// #include "input.h"
+// #include "canvas.h"
 #include "pixelChange.h"
 
-class Canvas;
-extern Input input;
+// extern Input input;
 
 class History {
 public:
+	History();
+	void addStateChange(std::vector<PixelChange>& stateChange);
 
-	Canvas* canvas;
-	std::vector<PixelChange> stateChanges;
+	std::vector<std::vector<PixelChange>> stateChanges;
 
-	void update();
+	int numStateChanges = 0;
+	int maxHistorySize = 5;
 };

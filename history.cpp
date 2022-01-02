@@ -1,14 +1,17 @@
 #include "history.h"
 
-void History::update() {
-	if (input.inputPressed.u) {
-		for (unsigned i = 0; i < stateChanges.size(); i++) {
-			PixelChange& pixelChange = stateChanges[i];
-			int row = pixelChange.row;
-			int col = pixelChange.col;
-			SDL_Color prevColor = pixelChange.prevColor;
 
-			canvas->pixels[row][col].color = prevColor;
-		}
+History::History() {
+	stateChanges.resize(maxHistorySize);
+}
+
+void History::addStateChange(std::vector<PixelChange>& stateChange) {
+	if (numStateChanges < maxHistorySize) {
+		numStateChanges += 1;
+		stateChanges[numStateChanges - 1] = stateChange;
+	}
+	else {
+		std::rotate(stateChanges.begin(), stateChanges.begin() + 1, stateChanges.end());
+		stateChanges[maxHistorySize - 1] = stateChange;
 	}
 }

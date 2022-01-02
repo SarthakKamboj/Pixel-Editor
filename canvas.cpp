@@ -52,7 +52,7 @@ void Canvas::update(int x, int y) {
 			int pixelX = x + (col * widthPerCell);
 			int pixelY = y + (row * heightPerCell);
 			if (fillSelectOn) {
-				if (pixel.clickedOn(pixelX, pixelY) && !isSameColor(colorPicker.selectedColor, pixel.color)) {
+				if (pixel.clickedOn(pixelX, pixelY) && !Util::isSameColor(colorPicker.selectedColor, pixel.color)) {
 					fillSelect(row, col);
 					return;
 				}
@@ -61,6 +61,22 @@ void Canvas::update(int x, int y) {
 				pixel.update(pixelX, pixelY);
 			}
 		}
+	}
+
+	if (input.inputPressed.u) {
+		if (history.numStateChanges == 0) return;
+		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numStateChanges - 1];
+		for (unsigned i = 0; i < stateChanges.size(); i++) {
+			PixelChange& pixelChange = stateChanges[i];
+			int row = pixelChange.row;
+			int col = pixelChange.col;
+			SDL_Color prevColor = pixelChange.prevColor;
+
+			pixels[row][col].color = prevColor;
+		}
+
+		history.numStateChanges -= 1;
+
 	}
 
 	if (input.inputPressed.f) {
@@ -89,6 +105,10 @@ void Canvas::fillSelect(int startRow, int startCol) {
 
 	posPixelsToChange.push(start);
 
+	// history.stateChanges.clear();
+
+	std::vector<PixelChange> stateChange;
+
 	while (posPixelsToChange.size() > 0) {
 
 		Pos pos = posPixelsToChange.front();
@@ -111,30 +131,36 @@ void Canvas::fillSelect(int startRow, int startCol) {
 		bottomPos.row = pos.row + 1;
 		bottomPos.col = pos.col;
 
-		if (leftPos.col >= 0 && !posInVec(leftPos, visited) && isSameColor(pixels[leftPos.row][leftPos.col].color, startColor)) {
+		if (leftPos.col >= 0 && !posInVec(leftPos, visited) && Util::isSameColor(pixels[leftPos.row][leftPos.col].color, startColor)) {
 			posPixelsToChange.push(leftPos);
 		}
 
-		if (rightPos.col < cols && !posInVec(rightPos, visited) && isSameColor(pixels[rightPos.row][rightPos.col].color, startColor)) {
+		if (rightPos.col < cols && !posInVec(rightPos, visited) && Util::isSameColor(pixels[rightPos.row][rightPos.col].color, startColor)) {
 			posPixelsToChange.push(rightPos);
 		}
 
-		if (topPos.row >= 0 && !posInVec(topPos, visited) && isSameColor(pixels[topPos.row][topPos.col].color, startColor)) {
+		if (topPos.row >= 0 && !posInVec(topPos, visited) && Util::isSameColor(pixels[topPos.row][topPos.col].color, startColor)) {
 			posPixelsToChange.push(topPos);
 		}
 
-		if (bottomPos.row < rows && !posInVec(bottomPos, visited) && isSameColor(pixels[bottomPos.row][bottomPos.col].color, startColor)) {
+		if (bottomPos.row < rows && !posInVec(bottomPos, visited) && Util::isSameColor(pixels[bottomPos.row][bottomPos.col].color, startColor)) {
 			posPixelsToChange.push(bottomPos);
 		}
+
+		PixelChange pixelChange;
+		pixelChange.row = pos.row;
+		pixelChange.col = pos.col;
+		pixelChange.prevColor = pixels[pos.row][pos.col].color;
+		pixelChange.newColor = colorPicker.selectedColor;
+
+		// history.stateChanges.push_back(pixelChange);
+		stateChange.push_back(pixelChange);
 
 		pixels[pos.row][pos.col].color = colorPicker.selectedColor;
 
 	}
 
-}
-
-bool Canvas::isSameColor(SDL_Color& c1, SDL_Color& c2) {
-	return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
+	history.addStateChange(stateChange);
 }
 
 bool Canvas::posInVec(Pos& pos, std::vector<Pos>& vec) {
