@@ -5,6 +5,14 @@ Label::Label(std::string _label, int _fontSize) : fontSize(_fontSize), label(_la
 	setLabel(label);
 }
 
+
+Label& Label::operator=(const Label& other) {
+	fontSize = other.fontSize;
+	label = other.label;
+	setLabel(label);
+	return *this;
+}
+
 void Label::render(int x, int y) {
 	SDL_Rect mapping;
 	mapping.x = x;

@@ -11,6 +11,8 @@ extern Input input;
 class Slider {
 public:
 	Slider(int min, int max, int width);
+	Slider& operator=(const Slider& other);
+
 	void update(int x, int y);
 	void render(int x, int y);
 

@@ -1,7 +1,11 @@
 #include "colorPicker.h"
 
-ColorPicker::ColorPicker() : redSlider(0, 255, 100),
-redLabel(std::to_string(redSlider.cur), 16)
+ColorPicker::ColorPicker() :
+	//: redSlider(0, 255, 100),
+	//redLabel(std::to_string(redSlider.cur), 16)
+	red(ColorPicker::ColorInput(Slider(0, 255, 100), Label("0", 16))),
+	green(ColorPicker::ColorInput(Slider(0, 255, 100), Label("0", 16))),
+	blue(ColorPicker::ColorInput(Slider(0, 255, 100), Label("0", 16)))
 {
 	colors[0] = { 217, 40, 1, 255 };
 	colors[1] = { 136,113,1, 255 };
@@ -12,11 +16,26 @@ redLabel(std::to_string(redSlider.cur), 16)
 
 	selectedColor = colors[0];
 	selectedIdx = 0;
+
+	/*
+	red.slider = Slider(0, 255, 100);
+	red.label = Label(std::to_string(red.slider.cur), 16);
+
+	green.slider = Slider(0, 255, 100);
+	green.label = Label(std::to_string(red.slider.cur), 16);
+
+	blue.slider = Slider(0, 255, 100);
+	blue.label = Label(std::to_string(red.slider.cur), 16);
+	*/
 }
 
 
-ColorPicker::ColorPicker(const ColorPicker& other) : redSlider(0, 255, 100),
-redLabel(std::to_string(redSlider.cur), 16)
+ColorPicker::ColorPicker(const ColorPicker& other) :
+	red(ColorPicker::ColorInput(Slider(0, 255, 100), Label(std::to_string(0), 16))),
+	green(ColorPicker::ColorInput(Slider(0, 255, 100), Label(std::to_string(0), 16))),
+	blue(ColorPicker::ColorInput(Slider(0, 255, 100), Label(std::to_string(0), 16)))
+	//: redSlider(0, 255, 100),
+	//redLabel(std::to_string(redSlider.cur), 16)
 {
 	colors[0] = { 217, 40, 1, 255 };
 	colors[1] = { 136,113,1, 255 };
@@ -27,17 +46,24 @@ redLabel(std::to_string(redSlider.cur), 16)
 
 	selectedColor = colors[0];
 	selectedIdx = 0;
+
+	/*
+	red.slider = Slider(0, 255, 100);
+	red.label = Label(std::to_string(red.slider.cur), 16);
+
+	green.slider = Slider(0, 255, 100);
+	green.label = Label(std::to_string(red.slider.cur), 16);
+
+	blue.slider = Slider(0, 255, 100);
+	blue.label = Label(std::to_string(red.slider.cur), 16);
+	*/
 }
 
 void ColorPicker::update(int x, int y) {
 
-	int prevRed = redSlider.cur;
-	redSlider.update(x, y + 400);
-	int newRed = redSlider.cur;
-
-	if (prevRed != newRed) {
-		redLabel.setLabel(std::to_string(newRed));
-	}
+	red.update(x, y + 400);
+	green.update(x, y + 500);
+	blue.update(x, y + 600);
 
 	if (!input.mousePressed) return;
 
@@ -58,8 +84,11 @@ void ColorPicker::update(int x, int y) {
 
 void ColorPicker::render(int x, int y) {
 
-	redSlider.render(x, y + 400);
-	redLabel.render(x, y + 450);
+	// redSlider.render(x, y + 400);
+	// redLabel.render(x, y + 450);
+	red.render(x, y + 400);
+	green.render(x, y + 500);
+	blue.render(x, y + 600);
 
 	uint8_t r, g, b, a;
 	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);

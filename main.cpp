@@ -16,13 +16,12 @@
 #include <string>
 #include "clearButton.h"
 
-// TODO: create canvas dynamically
-
 Input input;
 SDL_Renderer* renderer;
 History history;
 
 // TODO: add z-index collision input detection
+// TODO: make slider input better and add sliders for red green and blue
 
 int main(int argc, char* args[]) {
 
