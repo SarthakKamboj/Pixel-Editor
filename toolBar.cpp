@@ -1,12 +1,11 @@
 #include "toolBar.h"
 
-ToolBar::ToolBar(int _x, int _y, int _width, int _height) : x(_x), y(_y), width(_width), height(_height),
-newButton(Button("New", { 51, 86, 204, 255 }, { 34, 75, 221, 255 }, { 11, 41, 244, 255 }, 0, 0, 16)),
-ccm(x + 10, y + 10)
-// closeButton(Button("Close", { 51, 86, 204, 255 }, { 34, 75, 221, 255 }, { 11, 41, 244, 255 }, 0, 0, 16))
-{
-	// closeTexture = Util::getText("Close");
-}
+ToolBar::ToolBar(int _x, int _y, int _width, int _height, CanvasManager& _canvasManager) :
+	x(_x), y(_y), width(_width), height(_height),
+	canvasManager(_canvasManager),
+	newButton(Button("New", { 51, 86, 204, 255 }, { 34, 75, 221, 255 }, { 11, 41, 244, 255 }, 0, 0, 16)),
+	ccm(CanvasCreationModal(x + 10, y + 10, canvasManager))
+{}
 
 void ToolBar::update() {
 	// closeButton.update();
@@ -28,8 +27,16 @@ void ToolBar::update() {
 void ToolBar::render() {
 
 	// closeButton.render();
+	SDL_Color prevColor = Util::getRenderDrawColor();
+
+	SDL_Rect rendererMapping = { x, y, width, height };
+	Util::setRenderDrawColor({ 125, 125, 125, 255 });
+	SDL_RenderFillRect(renderer, &rendererMapping);
+
 	newButton.render();
 	ccm.render();
+
+	Util::setRenderDrawColor(prevColor);
 	// SDL_Rect rect = { 0,0,50,20 };
 	// SDL_RenderFillRect(renderer, rect);
 

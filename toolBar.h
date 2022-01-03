@@ -4,22 +4,22 @@
 #include "util.h"
 #include "button.h"
 #include "canvasCreationModal.h"
+#include "canvasManager.h"
 
 extern SDL_Renderer* renderer;
 
 class ToolBar {
 public:
-	ToolBar(int x, int y, int width, int height);
+	ToolBar(int x, int y, int width, int height, CanvasManager& canvasManager);
 	void update();
 	void render();
 
 private:
-	int width, height;
 	int x, y;
+	int width, height;
 
+	CanvasManager& canvasManager;
 	CanvasCreationModal ccm;
 
-	// SDL_Texture* closeTexture;
 	Button newButton;
-	// Button closeButton;
 };

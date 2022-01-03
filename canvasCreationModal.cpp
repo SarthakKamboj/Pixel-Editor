@@ -1,6 +1,6 @@
 #include "canvasCreationModal.h"
 
-CanvasCreationModal::CanvasCreationModal(int _x, int _y) :
+CanvasCreationModal::CanvasCreationModal(int _x, int _y, CanvasManager& _canvasManager) :
 	x(_x), y(_y),
 	colsLabel(Label("Columns", 16)),
 	colsInput(NumberInput(16, 100, { 255, 255, 255, 255 }, { 0,0,0,255 })),
@@ -9,7 +9,8 @@ CanvasCreationModal::CanvasCreationModal(int _x, int _y) :
 	cellSizeLabel(Label("Cell Size", 16)),
 	cellSizeInput(NumberInput(16, 100, { 255, 255, 255, 255 }, { 0,0,0,255 })),
 	createButton(Button("Create", { 40, 54, 133, 255 }, { 33, 43, 97, 255 }, { 26, 33, 71, 255 }, x, y + 80, 16)),
-	closeButton(Button("Close", { 173, 57, 47, 255 }, { 156, 54, 45, 255 }, { 133, 47, 40, 255 }, x, y + 105, 16))
+	closeButton(Button("Close", { 173, 57, 47, 255 }, { 156, 54, 45, 255 }, { 133, 47, 40, 255 }, x, y + 105, 16)),
+	canvasManager(_canvasManager)
 {
 
 }

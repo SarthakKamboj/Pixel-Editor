@@ -16,14 +16,18 @@ struct Pixel {
 	int row, col, width, height;
 	SDL_Color color;
 
-	Pixel();
-	Pixel(int _row, int _col, int _width, int _height, SDL_Color _color);
+	Pixel(ColorPicker& colorPicker);
+	Pixel(int _row, int _col, int _width, int _height, SDL_Color _color, ColorPicker& colorPicker);
 	Pixel(const Pixel& other);
+	Pixel& operator=(const Pixel& other);
 
 	void update(int x, int y);
 	void render(int x, int y);
 
 	bool clickedOn(int x, int y);
+
+private:
+	ColorPicker& colorPicker;
 };
 
 

@@ -8,6 +8,7 @@ struct MouseState {
 	int x, y;
 };
 
+
 struct InputInfo {
 	bool w, f, u, r;
 	// bool a, b, c, d, e, f, g, h, i, j, k, l, m
@@ -35,6 +36,7 @@ public:
 	// InputInfo inputPressed;
 
 	MouseState mouseState;
+	MouseState mouseDelta;
 
 	bool isMousePressedOn(int x, int y, int width, int height);
 	bool isMouseInRegion(int x, int y, int width, int height);

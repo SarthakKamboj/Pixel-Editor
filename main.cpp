@@ -14,14 +14,15 @@
 #include "canvasCreationModal.h"
 #include "canvasManager.h"
 #include <string>
+#include "clearButton.h"
 
 // TODO: create canvas dynamically
 
 Input input;
 SDL_Renderer* renderer;
-ColorPicker colorPicker;
 History history;
-CanvasManager canvasManager;
+
+// TODO: add z-index collision input detection
 
 int main(int argc, char* args[]) {
 
@@ -33,34 +34,45 @@ int main(int argc, char* args[]) {
 	float expectedMSPerFrame = 1000.0f / FPS;
 
 	int windowWidth = 800;
-	int windowHeight = 700;
+	int windowHeight = 775;
 
 	SDL_Window* window = SDL_CreateWindow("Pixel Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	bool running = true;
 
-	// Canvas canvas(64, 48, 8, 8, renderer);
-	ToolBar toolBar(0, 0, windowWidth, 30);
-	// NumberInput numberInput(16, 100, { 255, 255, 255, 255 }, { 0,0,0,255 });
+	ColorPicker colorPicker;
+	CanvasManager canvasManager(colorPicker);
+
+	ToolBar toolBar(0, 0, windowWidth, 30, canvasManager);
+	ClearButton clearButton(canvasManager);
+
+	SDL_Rect canvasManagerRect = {};
+	canvasManagerRect.x = 100;
+	canvasManagerRect.y = 40;
+
+	SDL_Rect colorPickerRect = {};
+	colorPickerRect.x = 600;
+	colorPickerRect.y = 40;
+
 
 	while (!input.quit) {
 
 		uint32_t start = SDL_GetTicks();
 
 		input.update();
-		// canvas.update(40, 40);
-		canvasManager.update(40, 40);
-		colorPicker.update(700, 40);
+		canvasManager.update(canvasManagerRect.x, canvasManagerRect.y);
+		colorPicker.update(colorPickerRect.x, colorPickerRect.y);
 		toolBar.update();
+		clearButton.update();
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
-		// canvas.render(40, 40);
-		canvasManager.render(40, 40);
-		colorPicker.render(700, 40);
+		canvasManager.render(canvasManagerRect.x, canvasManagerRect.y);
+		colorPicker.render(colorPickerRect.x, colorPickerRect.y);
 		toolBar.render();
+		clearButton.render();
 
 		SDL_RenderPresent(renderer);
 

@@ -1,7 +1,7 @@
 #include "canvas.h"
 
-Canvas::Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* _renderer) : rows(_rows), cols(_cols),
-heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
+Canvas::Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* _renderer, ColorPicker& _colorPicker) : rows(_rows), cols(_cols),
+heightPerCell(_heightPerCell), widthPerCell(_widthPerCell), renderer(_renderer), colorPicker(_colorPicker)
 {
 
 	SDL_Color colors[3];
@@ -9,14 +9,12 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	colors[1] = { 0, 255, 0, 255 };
 	colors[2] = { 0, 0, 255, 255 };
 
-	renderer = _renderer;
-
 	pixels.reserve(rows);
 	for (int row = 0; row < rows; row++) {
 		pixels.push_back(std::vector<Pixel>());
 		pixels[row].reserve(cols);
 		for (int col = 0; col < cols; col++) {
-			Pixel pixel;
+			Pixel pixel(colorPicker);
 			SDL_Color color = colors[(int)(rand() % 3)];
 			color.r = 255;
 			color.g = 255;
@@ -37,13 +35,23 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell)
 	width = cols * widthPerCell;
 	height = rows * heightPerCell;
 
-	// TTF_Font* font = TTF_OpenFont("fonts/SpaceMono.ttf", 16);
-	// SDL_Surface* fillSelectSurface = TTF_RenderText_Blended(font, "Fill", { 255, 255, 255, 255 });
-	// fillSelectTex = SDL_CreateTextureFromSurface(renderer, fillSelectSurface);
-	// SDL_FreeSurface(fillSelectSurface);
 	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
 }
 
+
+Canvas& Canvas::operator=(const Canvas& other) {
+	rows = other.rows;
+	cols = other.cols;
+	widthPerCell = other.widthPerCell;
+	heightPerCell = other.heightPerCell;
+	width = other.width;
+	height = other.height;
+	fillSelectOn = other.fillSelectOn;
+	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
+	renderer = other.renderer;
+	pixels = other.pixels;
+	return *this;
+}
 
 void Canvas::update(int x, int y) {
 
@@ -64,7 +72,6 @@ void Canvas::update(int x, int y) {
 		}
 	}
 
-	// if (input.inputPressed.u) {
 	if (input.pressed[SDLK_u]) {
 		if (history.numRecordedStateChanges == 0) return;
 		std::vector<PixelChange>& stateChanges = history.stateChanges[history.numRecordedStateChanges - 1];
@@ -82,7 +89,6 @@ void Canvas::update(int x, int y) {
 
 	}
 
-	// if (input.inputPressed.r) {
 	if (input.pressed[SDLK_r]) {
 		if (history.numRecordedUndoActions == 0) return;
 
@@ -102,7 +108,6 @@ void Canvas::update(int x, int y) {
 		history.numRecordedUndoActions -= 1;
 	}
 
-	// if (input.inputPressed.f) {
 	if (input.pressed[SDLK_f]) {
 		fillSelectOn = !fillSelectOn;
 	}
@@ -117,7 +122,6 @@ void Canvas::update(int x, int y) {
 		}
 	}
 }
-
 
 void Canvas::fillSelect(int startRow, int startCol) {
 
@@ -193,7 +197,6 @@ bool Canvas::posInVec(Pos& pos, std::vector<Pos>& vec) {
 	}
 	return false;
 }
-
 
 void Canvas::render(int x, int y) {
 

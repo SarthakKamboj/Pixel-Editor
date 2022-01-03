@@ -9,8 +9,9 @@
 #include "pixel.h"
 #include "history.h"
 #include "util.h"
+#include "colorPicker.h"
 
-extern ColorPicker colorPicker;
+// extern ColorPicker colorPicker;
 extern History history;
 
 struct Pos {
@@ -28,7 +29,8 @@ struct Pos {
 
 class Canvas {
 public:
-	Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* renderer);
+	Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* renderer, ColorPicker& colorPicker);
+	Canvas& operator=(const Canvas& other);
 	void update(int x, int y);
 	void render(int x, int y);
 
@@ -39,6 +41,8 @@ private:
 	int width, height;
 
 	bool fillSelectOn = false;
+
+	ColorPicker& colorPicker;
 
 	SDL_Texture* fillSelectTex;
 	SDL_Renderer* renderer;

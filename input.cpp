@@ -114,7 +114,11 @@ void Input::update() {
 	}
 	}
 
+	MouseState prevMouseState = mouseState;
 	SDL_GetMouseState(&mouseState.x, &mouseState.y);
+
+	mouseDelta.x = mouseState.x - prevMouseState.x;
+	mouseDelta.y = mouseState.y - prevMouseState.y;
 	// std::cout << mouseState.x << ", " << mouseState.y << std::endl;
 	/*
 	if (mouseDown) {

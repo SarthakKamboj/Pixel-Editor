@@ -8,11 +8,10 @@
 #include "label.h"
 
 extern SDL_Renderer* renderer;
-extern CanvasManager canvasManager;
 
 class CanvasCreationModal {
 public:
-	CanvasCreationModal(int x, int y);
+	CanvasCreationModal(int x, int y, CanvasManager& canvasManager);
 	bool active = false;
 	void update();
 	void render();
@@ -28,4 +27,5 @@ private:
 	Button createButton;
 	Button closeButton;
 
+	CanvasManager& canvasManager;
 };

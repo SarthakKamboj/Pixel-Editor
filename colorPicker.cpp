@@ -1,6 +1,23 @@
 #include "colorPicker.h"
 
-ColorPicker::ColorPicker() {
+ColorPicker::ColorPicker() : redSlider(0, 255, 100),
+redLabel(std::to_string(redSlider.cur), 16)
+{
+	colors[0] = { 217, 40, 1, 255 };
+	colors[1] = { 136,113,1, 255 };
+	colors[2] = { 252,153,57, 255 };
+	colors[3] = { 255, 0, 255, 255 };
+	colors[4] = { 255, 255, 0, 255 };
+	colors[5] = { 255, 255, 255, 255 };
+
+	selectedColor = colors[0];
+	selectedIdx = 0;
+}
+
+
+ColorPicker::ColorPicker(const ColorPicker& other) : redSlider(0, 255, 100),
+redLabel(std::to_string(redSlider.cur), 16)
+{
 	colors[0] = { 217, 40, 1, 255 };
 	colors[1] = { 136,113,1, 255 };
 	colors[2] = { 252,153,57, 255 };
@@ -13,6 +30,14 @@ ColorPicker::ColorPicker() {
 }
 
 void ColorPicker::update(int x, int y) {
+
+	int prevRed = redSlider.cur;
+	redSlider.update(x, y + 400);
+	int newRed = redSlider.cur;
+
+	if (prevRed != newRed) {
+		redLabel.setLabel(std::to_string(newRed));
+	}
 
 	if (!input.mousePressed) return;
 
@@ -32,6 +57,9 @@ void ColorPicker::update(int x, int y) {
 }
 
 void ColorPicker::render(int x, int y) {
+
+	redSlider.render(x, y + 400);
+	redLabel.render(x, y + 450);
 
 	uint8_t r, g, b, a;
 	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);

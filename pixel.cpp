@@ -1,16 +1,30 @@
 #include "pixel.h"
 
 
-Pixel::Pixel() : row(0), col(0), width(0), height(0) {
+Pixel::Pixel(ColorPicker& _colorPicker) : row(0), col(0), width(0), height(0), colorPicker(_colorPicker) {
 	color.r = 255;
 	color.g = 255;
 	color.b = 255;
 	color.a = 255;
 }
 
-Pixel::Pixel(int _row, int _col, int _width, int _height, SDL_Color _color) : row(_row), col(_col), width(_width), height(_height), color(_color) {}
+Pixel::Pixel(int _row, int _col, int _width, int _height, SDL_Color _color, ColorPicker& _colorPicker) : row(_row), col(_col), width(_width), height(_height), color(_color),
+colorPicker(_colorPicker)
+{}
 
-Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color), width(other.width), height(other.height) {}
+Pixel::Pixel(const Pixel& other) : row(other.row), col(other.col), color(other.color), width(other.width), height(other.height),
+colorPicker(other.colorPicker)
+{}
+
+
+Pixel& Pixel::operator=(const Pixel& other) {
+	row = other.row;
+	col = other.col;
+	width = other.width;
+	height = other.height;
+	colorPicker = other.colorPicker;
+	return *this;
+}
 
 void Pixel::update(int x, int y) {
 	// if (input.mouseDown && !Util::isSameColor(color, colorPicker.selectedColor)) {
