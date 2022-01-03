@@ -5,6 +5,7 @@
 #include "slider.h"
 #include "label.h"
 #include <string>
+#include "util.h"
 
 extern SDL_Renderer* renderer;
 extern Input input;
@@ -20,34 +21,42 @@ public:
 
 private:
 
-	struct ColorInput {
-
-		ColorInput(Slider _slider, Label _label) : slider(_slider), label(_label)
+	class ColorInput {
+	public:
+		ColorInput(Slider _slider, Label _valLabel, Label _colorLabel) : slider(_slider), valLabel(_valLabel),
+			colorlabel(_colorLabel)
 		{
-			label.setLabel(std::to_string(slider.cur));
+			valLabel.setLabel(std::to_string(slider.cur));
 		}
-
-		Slider slider;
-		Label label;
 
 		void update(int x, int y) {
 			int prevCur = slider.cur;
-			slider.update(x, y);
+			slider.update(x, y + 30);
 			int newCur = slider.cur;
 
 			if (prevCur != newCur) {
-				label.setLabel(std::to_string(newCur));
+				valLabel.setLabel(std::to_string(newCur));
 			}
 		}
 
 		void render(int x, int y) {
-			slider.render(x, y);
-			label.render(x, y + 50);
+			colorlabel.render(x, y);
+			slider.render(x, y + 30);
+			valLabel.render(x, y + 50);
 		}
+
+		Slider slider;
+
+	private:
+
+		Label valLabel;
+		Label colorlabel;
 	};
 
 	SDL_Color colors[6];
 	int selectedIdx;
+
+	SDL_Color getSelectedColor();
 
 	ColorInput red;
 	ColorInput green;

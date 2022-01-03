@@ -17,6 +17,6 @@ public:
 	void setLabel(std::string label);
 private:
 	int fontSize;
-	SDL_Texture* labelTexture;
+	SDL_Texture* labelTexture = NULL;
 	std::string label;
 };
