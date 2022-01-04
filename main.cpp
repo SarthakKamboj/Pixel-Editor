@@ -21,7 +21,7 @@ SDL_Renderer* renderer;
 History history;
 
 // TODO: add z-index collision input detection
-// TODO: make slider input better and add sliders for red green and blue
+// TODO: make one ui component focused at a time
 
 int main(int argc, char* args[]) {
 

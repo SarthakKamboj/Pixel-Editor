@@ -28,6 +28,7 @@ ColorPicker::ColorPicker() :
 	blue.slider = Slider(0, 255, 100);
 	blue.label = Label(std::to_string(red.slider.cur), 16);
 	*/
+
 }
 
 

@@ -24,4 +24,7 @@ private:
 	int width;
 	float internalMin = 0.0f, internalMax = 1.0f;
 	float internalCur = 0.5f;
+
+	bool active = false;
 };
+

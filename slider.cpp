@@ -21,11 +21,16 @@ void Slider::update(int x, int y) {
 	int valIconHeight = 20;
 	SDL_Rect valRect = { x + (width * internalCur), y - (valIconHeight / 2), 10, valIconHeight };
 
-	if (input.isMouseDownOn(valRect.x, valRect.y, valRect.w, valRect.h)) {
-		// std::cout << "locked on val slider" << std::endl;
-		float xSliderDelta = ((float)input.mouseDelta.x) / width;
+	if (!active && input.isMouseDownOn(valRect.x, valRect.y, valRect.w, valRect.h)) {
+		active = true;
+	}
 
-		internalCur += xSliderDelta;
+	if (active && !input.mouseDown) {
+		active = false;
+	}
+
+	if (active) {
+		internalCur = ((float)(input.mouseState.x - x)) / width;
 
 		internalCur = fmax(fmin(internalCur, internalMax), internalMin);
 
