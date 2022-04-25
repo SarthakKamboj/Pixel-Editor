@@ -3,7 +3,6 @@
 
 History::History() {
 	stateChanges.resize(maxHistorySize);
-	// pastUndos.resize(maxUndoRecordSize);
 }
 
 void History::addStateChange(std::vector<PixelChange>& stateChange) {
@@ -18,15 +17,3 @@ void History::addStateChange(std::vector<PixelChange>& stateChange) {
 	numRecordedUndoActions = 0;
 }
 
-/*
-void History::addUndoAction(std::vector<PixelChange>& undoAction) {
-	if (numRecordedUndoActions < maxUndoRecordSize) {
-		numRecordedUndoActions += 1;
-		pastUndos[numRecordedUndoActions - 1] = undoAction;
-	}
-	else {
-		std::rotate(pastUndos.begin(), pastUndos.begin() + 1, pastUndos.end());
-		pastUndos[numRecordedUndoActions - 1] = undoAction;
-	}
-}
-*/

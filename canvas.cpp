@@ -4,6 +4,30 @@ Canvas::Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_
 heightPerCell(_heightPerCell), widthPerCell(_widthPerCell), renderer(_renderer), colorPicker(_colorPicker)
 {
 
+	populatePixels();
+
+	width = cols * widthPerCell;
+	height = rows * heightPerCell;
+
+	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
+}
+
+Canvas::~Canvas() {
+	clearPixels();
+}
+
+void Canvas::clearPixels() {
+	int cur_rows = pixels.size();
+	for (int row = 0; row < cur_rows; row++) {
+		pixels[row].clear();
+	}
+	pixels.clear();
+}
+
+void Canvas::populatePixels() {
+
+	clearPixels();
+
 	SDL_Color colors[3];
 	colors[0] = { 255, 0, 0, 255 };
 	colors[1] = { 0, 255, 0, 255 };
@@ -31,13 +55,7 @@ heightPerCell(_heightPerCell), widthPerCell(_widthPerCell), renderer(_renderer),
 
 		}
 	}
-
-	width = cols * widthPerCell;
-	height = rows * heightPerCell;
-
-	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
 }
-
 
 Canvas& Canvas::operator=(const Canvas& other) {
 	rows = other.rows;
@@ -49,7 +67,9 @@ Canvas& Canvas::operator=(const Canvas& other) {
 	fillSelectOn = other.fillSelectOn;
 	fillSelectTex = Util::getText("Fill", 16, { 255, 255, 255, 255 });
 	renderer = other.renderer;
-	pixels = other.pixels;
+
+	populatePixels();
+
 	return *this;
 }
 

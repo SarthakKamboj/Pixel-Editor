@@ -1,17 +1,6 @@
 #include "input.h"
 
-// Input::Input(UIComponentRegistrar* _uiComponentRegistrar) : uiComponentRegistrar(_uiComponentRegistrar) {
-Input::Input() {
-	// inputReleased.setAllTrue();
-
-	/*
-	for (std::pair<SDL_KeyCode, bool> keyValue : released) {
-		pressed[keyValue.first] = true;
-	}
-	*/
-
-	// uiComponentMouseOver = NULL;
-}
+Input::Input() {}
 
 void Input::resetInput() {
 	for (std::pair<SDL_KeyCode, bool> keyValue : down) {
@@ -68,39 +57,9 @@ void Input::update() {
 				  break;
 	}
 
-	if (mousePressed) {
-		std::cout << "mouse pressed" << std::endl;
-	}
-
 	if (mouseDown) {
 		SDL_GetMouseState(&mouseState.x, &mouseState.y);
 	}
-
-	/*
-	MouseState prevMouseState = mouseState;
-	SDL_GetMouseState(&mouseState.x, &mouseState.y);
-
-	mouseDelta.x = mouseState.x - prevMouseState.x;
-	mouseDelta.y = mouseState.y - prevMouseState.y;
-
-	uiComponentMouseOver = NULL;
-	std::vector<int>& zLayers = uiComponentRegistrar->zLayers;
-	std::map<int, std::vector<UIComponent*>>& uiComponentLayers = uiComponentRegistrar->uiComponentLayers;
-
-	for (int i = ((int)zLayers.size()) - 1; i >= 0; i--) {
-		bool foundMouseOver = false;
-		for (UIComponent* component : uiComponentLayers[zLayers[i]]) {
-			if (isMouseInRegion(component->x, component->y, component->width, component->height)) {
-				uiComponentMouseOver = component;
-				foundMouseOver = true;
-				break;
-			}
-		}
-		if (foundMouseOver) {
-			break;
-		}
-	}
-	*/
 
 }
 
@@ -116,16 +75,3 @@ bool Input::isMouseDownOn(int x, int y, int width, int height) {
 	return mouseDown && isMouseInRegion(x, y, width, height);
 }
 
-/*
-bool Input::isMousePressedOn(UIComponent* component) {
-	return mousePressed && uiComponentMouseOver == component;
-}
-
-bool Input::isMouseInRegion(UIComponent* component) {
-	return uiComponentMouseOver == component;
-}
-
-bool Input::isMouseDownOn(UIComponent* component) {
-	return mouseDown && uiComponentMouseOver == component;
-}
-*/

@@ -6,7 +6,6 @@
 #include "pixelChange.h"
 #include "util.h"
 
-// extern CanvasManager canvasManager;
 extern History history;
 
 class ClearButton {

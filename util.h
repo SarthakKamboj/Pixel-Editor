@@ -12,6 +12,4 @@ public:
 	static SDL_Texture* getText(std::string text, int fontSize, SDL_Color color);
 	static SDL_Color getRenderDrawColor();
 	static void setRenderDrawColor(SDL_Color color);
-
-	// static TTF_Font* font;
 };

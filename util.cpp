@@ -8,7 +8,6 @@ bool Util::isSameColor(SDL_Color& c1, SDL_Color& c2) {
 
 
 SDL_Texture* Util::getText(std::string text, int fontSize, SDL_Color color) {
-	// std::string path = "fonts/SpaceMono.ttf";
 	std::string path = "C:\\Sarthak\\ImageEditor\\fonts\\SpaceMono.ttf";
 	TTF_Font* font = TTF_OpenFont(path.c_str(), fontSize);
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);

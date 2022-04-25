@@ -11,7 +11,6 @@
 #include "util.h"
 #include "colorPicker.h"
 
-// extern ColorPicker colorPicker;
 extern History history;
 
 struct Pos {
@@ -30,6 +29,7 @@ struct Pos {
 class Canvas {
 public:
 	Canvas(int _rows, int _cols, int _widthPerCell, int _heightPerCell, SDL_Renderer* renderer, ColorPicker& colorPicker);
+	~Canvas();
 	Canvas& operator=(const Canvas& other);
 	void update(int x, int y);
 	void render(int x, int y);
@@ -51,4 +51,7 @@ private:
 	bool posInVec(Pos& pos, std::vector<Pos>& vec);
 
 	bool active = false;
+
+	void populatePixels();
+	void clearPixels();
 };
