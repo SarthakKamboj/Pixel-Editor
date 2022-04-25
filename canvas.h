@@ -49,4 +49,6 @@ private:
 
 	void fillSelect(int startRow, int startCol);
 	bool posInVec(Pos& pos, std::vector<Pos>& vec);
+
+	bool active = false;
 };

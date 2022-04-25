@@ -55,19 +55,29 @@ Canvas& Canvas::operator=(const Canvas& other) {
 
 void Canvas::update(int x, int y) {
 
-	for (int row = 0; row < rows; row++) {
-		for (int col = 0; col < cols; col++) {
-			Pixel& pixel = pixels[row][col];
-			int pixelX = x + (col * widthPerCell);
-			int pixelY = y + (row * heightPerCell);
-			if (fillSelectOn) {
-				if (pixel.clickedOn(pixelX, pixelY) && !Util::isSameColor(colorPicker.selectedColor, pixel.color)) {
-					fillSelect(row, col);
-					return;
+	if (!active && input.isMousePressedOn(x, y, width, height)) {
+		active = true;
+	}
+
+	if (active && !input.mouseDown) {
+		active = false;
+	}
+
+	if (active) {
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				Pixel& pixel = pixels[row][col];
+				int pixelX = x + (col * widthPerCell);
+				int pixelY = y + (row * heightPerCell);
+				if (fillSelectOn) {
+					if (pixel.clickedOn(pixelX, pixelY) && !Util::isSameColor(colorPicker.selectedColor, pixel.color)) {
+						fillSelect(row, col);
+						return;
+					}
 				}
-			}
-			else {
-				pixel.update(pixelX, pixelY);
+				else {
+					pixel.update(pixelX, pixelY);
+				}
 			}
 		}
 	}
